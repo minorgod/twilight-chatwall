@@ -1,11 +1,12 @@
-
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { useConversations } from '@/hooks/use-conversations';
 import { useMessages } from '@/hooks/use-messages';
+import { supabase } from '@/lib/supabase';
 import { Sidebar } from '@/components/chat/Sidebar';
 import { MessageList } from '@/components/chat/MessageList';
 import { ChatInput } from '@/components/chat/ChatInput';
@@ -16,8 +17,26 @@ const Chat = () => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
   const { conversations } = useConversations();
   const { messages } = useMessages(currentSession);
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      navigate('/auth');
+      toast({
+        title: "Logged out",
+        description: "Successfully logged out of your account.",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to log out. Please try again.",
+      });
+    }
+  };
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -67,6 +86,7 @@ const Chat = () => {
         conversations={conversations}
         currentSession={currentSession}
         onSelectSession={setCurrentSession}
+        onLogout={handleLogout}
       />
 
       <div className="flex-1 flex flex-col h-full overflow-hidden">

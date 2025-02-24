@@ -1,6 +1,7 @@
 
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, LogOut } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '@/components/ui/button';
 import type { Conversation } from '@/types/chat';
 
 interface SidebarProps {
@@ -8,16 +9,25 @@ interface SidebarProps {
   conversations: Conversation[];
   currentSession: string | null;
   onSelectSession: (sessionId: string) => void;
+  onLogout: () => void;
 }
 
-export function Sidebar({ open, conversations, currentSession, onSelectSession }: SidebarProps) {
+export function Sidebar({ open, conversations, currentSession, onSelectSession, onLogout }: SidebarProps) {
   return (
     <div className={`fixed inset-y-0 left-0 transform ${open ? 'translate-x-0' : '-translate-x-full'} 
       w-64 bg-card/50 backdrop-blur border-r border-border transition-transform duration-300 ease-in-out
       md:relative md:translate-x-0 z-20`}>
       <div className="flex flex-col h-full">
-        <div className="p-4 border-b border-border">
+        <div className="p-4 border-b border-border flex items-center justify-between">
           <h2 className="text-lg font-semibold">Conversations</h2>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onLogout}
+            className="hover:bg-destructive/10 hover:text-destructive"
+          >
+            <LogOut size={16} />
+          </Button>
         </div>
         <ScrollArea className="flex-1 p-4">
           {conversations.map((conv) => (
