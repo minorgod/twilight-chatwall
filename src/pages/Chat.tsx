@@ -163,7 +163,7 @@ const Chat = () => {
                   ${currentSession === conv.session_id ? 'bg-primary/20' : 'hover:bg-secondary/50'}`}
               >
                 <div className="flex items-center space-x-3">
-                  <MessageSquare className="w-4 h-4" />
+                  <MessageSquare size={16} />
                   <span className="text-sm truncate">{conv.title || 'New Conversation'}</span>
                 </div>
               </button>
@@ -180,7 +180,7 @@ const Chat = () => {
           className="fixed top-4 left-4 z-30 md:hidden"
           onClick={() => setSidebarOpen(!sidebarOpen)}
         >
-          {sidebarOpen ? <ChevronLeft /> : <ChevronRight />}
+          {sidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
         </Button>
 
         {/* Messages */}
@@ -199,7 +199,7 @@ const Chat = () => {
                   }`}
                 >
                   {msg.message.type === 'ai' ? (
-                    <ReactMarkdown className="prose prose-invert max-w-none">
+                    <ReactMarkdown>
                       {msg.message.content}
                     </ReactMarkdown>
                   ) : (
@@ -224,7 +224,7 @@ const Chat = () => {
               className="bg-card"
             />
             <Button onClick={sendMessage} disabled={loading}>
-              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+              {loading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
             </Button>
           </div>
         </div>
