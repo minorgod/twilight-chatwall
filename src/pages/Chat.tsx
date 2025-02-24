@@ -38,6 +38,11 @@ const Chat = () => {
     }
   };
 
+  const handleNewConversation = () => {
+    setCurrentSession(null);
+    setInput('');
+  };
+
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -87,6 +92,8 @@ const Chat = () => {
         currentSession={currentSession}
         onSelectSession={setCurrentSession}
         onLogout={handleLogout}
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        onNewConversation={handleNewConversation}
       />
 
       <div className="flex-1 flex flex-col h-full overflow-hidden">
